@@ -1,0 +1,99 @@
+.matrix-portrait-stage {
+  --neon: #00ff66;
+  position: relative;
+  width: min(100%, 760px);
+  aspect-ratio: 1.55 / 1;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  perspective: 1100px;
+  overflow: visible;
+}
+.matrix-portrait-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  width: 88%;
+  aspect-ratio: 16 / 9;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(.2,.75,.2,1), filter 420ms ease;
+  filter: drop-shadow(0 0 12px #00ff6633);
+  will-change: transform;
+  z-index: 2;
+}
+.matrix-portrait-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid #00ff6680;
+  box-shadow: 0 0 22px #00ff6622, inset 0 0 24px #00ff6622;
+}
+.matrix-portrait-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx) var(--my), #00ff6640, transparent 34%);
+  mix-blend-mode: screen;
+}
+.matrix-pointer-glow {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  border: 1px solid #00ff6670;
+  box-shadow: 0 0 16px #00ff6640, inset 0 0 18px #00ff661a;
+}
+.matrix-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #70ff9b;
+  box-shadow: 0 0 12px #00ff66;
+  opacity: .65;
+  pointer-events: none;
+  animation: matrix-scan 4.5s linear infinite;
+}
+.matrix-orbit {
+  position: absolute;
+  width: 78%;
+  height: 88%;
+  border: 1px solid #00ff6650;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+.matrix-orbit-a { transform: rotate(-17deg); animation: orbit-drift 18s linear infinite; }
+.matrix-orbit-b { width: 84%; height: 96%; transform: rotate(14deg); animation: orbit-drift 24s linear infinite reverse; }
+.matrix-tag {
+  position: absolute;
+  z-index: 3;
+  color: var(--neon);
+  background: #00140bdf;
+  border: 1px solid #00ff66a0;
+  padding: 9px 15px;
+  font: 600 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .08em;
+  box-shadow: 0 0 14px #00ff6620;
+}
+.matrix-tag-net { top: 8%; left: 16%; }
+.matrix-tag-sec { right: 3%; top: 46%; }
+.matrix-tag-ops { bottom: 5%; left: 22%; }
+@keyframes matrix-scan { from { transform: translateY(0); } to { transform: translateY( min( min(52vw, 430px), 100%)); } }
+@keyframes orbit-drift { from { rotate: 0deg; } to { rotate: 360deg; } }
+@media (max-width: 600px) {
+  .matrix-portrait-stage { width: 100%; }
+  .matrix-portrait-card { width: 94%; }
+  .matrix-tag { padding: 6px 9px; font-size: 10px; }
+  .matrix-tag-sec { right: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .matrix-orbit-a, .matrix-orbit-b, .matrix-scanline { animation: none; }
+  .matrix-portrait-card { transition: none; }
+}
