@@ -93,8 +93,8 @@ export default function MatrixPortrait() {
     const px = (event.clientX - rect.left) / rect.width;
     const py = (event.clientY - rect.top) / rect.height;
 
-    card.style.setProperty("--rx", `${(0.5 - py) * 9}deg`);
-    card.style.setProperty("--ry", `${(px - 0.5) * 12}deg`);
+    card.style.setProperty("--rx", `${(0.5 - py) * 18}deg`);
+    card.style.setProperty("--ry", `${(px - 0.5) * 22}deg`);
     card.style.setProperty("--mx", `${px * 100}%`);
     card.style.setProperty("--my", `${py * 100}%`);
   }
