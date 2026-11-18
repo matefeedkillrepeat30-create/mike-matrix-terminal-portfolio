@@ -148,9 +148,18 @@
   .matrix-tag-sec { right: 0; }
   .matrix-tag-ops { left: 5%; }
   .matrix-code-rain { opacity: .62; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .matrix-orbit-a, .matrix-orbit-b, .matrix-scanline { animation: none; }
-  .matrix-portrait-card { transition: none; transform: none; }
-  .matrix-code-rain { display: none; }
+  .matrix-orbit-a,
+  .matrix-orbit-b,
+  .matrix-scanline {
+    animation: none;
+  }
+
+  .matrix-portrait-card {
+    transition: none;
+  }
+
+  .matrix-code-rain {
+    display: none;
+  }
 }
