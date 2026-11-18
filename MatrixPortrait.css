@@ -1,0 +1,156 @@
+.matrix-portrait-stage {
+  --neon: #00ff66;
+  position: relative;
+  width: min(100%, 760px);
+  max-width: 760px;
+  min-width: 0;
+  aspect-ratio: 1.42 / 1;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  perspective: 1100px;
+  overflow: visible;
+}
+
+.matrix-portrait-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  width: 92%;
+  aspect-ratio: 1491 / 1055;
+  overflow: hidden;
+  border: 1px solid #00ff6680;
+  border-radius: 2px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 360ms cubic-bezier(.2,.75,.2,1), filter 360ms ease;
+  filter: drop-shadow(0 0 18px #00ff6644);
+  will-change: transform;
+  z-index: 2;
+}
+
+.matrix-portrait-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.matrix-code-rain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .72;
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 90%, transparent 100%);
+}
+
+.matrix-portrait-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx) var(--my), #00ff6635, transparent 38%);
+  mix-blend-mode: screen;
+}
+
+.matrix-pointer-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border: 1px solid #00ff6670;
+  box-shadow: inset 0 0 24px #00ff6625, 0 0 18px #00ff6630;
+}
+
+.matrix-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 5;
+  pointer-events: none;
+  background: #baffce;
+  box-shadow: 0 0 14px #00ff66;
+  opacity: .75;
+  animation: matrix-scan 5s linear infinite;
+}
+
+.matrix-orbit {
+  position: absolute;
+  width: 82%;
+  height: 88%;
+  border: 1px solid #00ff6650;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+.matrix-orbit-a {
+  transform: rotate(-17deg);
+  animation: matrix-orbit-spin 24s linear infinite;
+}
+.matrix-orbit-b {
+  width: 88%;
+  height: 96%;
+  transform: rotate(14deg);
+  animation: matrix-orbit-spin 32s linear infinite reverse;
+}
+
+.matrix-tag {
+  position: absolute;
+  z-index: 6;
+  color: var(--neon);
+  background: #00140bf0;
+  border: 1px solid #00ff66a0;
+  padding: 8px 13px;
+  font: 600 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .08em;
+  box-shadow: 0 0 14px #00ff6620;
+  pointer-events: none;
+}
+.matrix-tag-net { top: 8%; left: 10%; }
+.matrix-tag-sec { right: 1%; top: 46%; }
+.matrix-tag-ops { bottom: 5%; left: 14%; }
+
+@keyframes matrix-scan {
+  from { top: 0; }
+  to { top: calc(100% - 2px); }
+}
+@keyframes matrix-orbit-spin {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .matrix-portrait-stage:hover .matrix-portrait-card {
+    filter: drop-shadow(0 0 26px #00ff6670);
+  }
+}
+@media (max-width: 900px) {
+  .matrix-portrait-stage { width: 100%; }
+  .matrix-portrait-card { width: 94%; }
+}
+@media (max-width: 600px) {
+  .matrix-portrait-stage { aspect-ratio: 1.25 / 1; }
+  .matrix-portrait-card { width: 96%; }
+  .matrix-tag { padding: 6px 8px; font-size: 10px; }
+  .matrix-tag-net { left: 0; }
+  .matrix-tag-sec { right: 0; }
+  .matrix-tag-ops { left: 5%; }
+  .matrix-code-rain { opacity: .62; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .matrix-orbit-a, .matrix-orbit-b, .matrix-scanline { animation: none; }
+  .matrix-portrait-card { transition: none; transform: none; }
+  .matrix-code-rain { display: none; }
+}
