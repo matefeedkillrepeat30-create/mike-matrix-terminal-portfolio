@@ -5,11 +5,12 @@ import MatrixPortrait from './MatrixPortrait'
 type Line = { kind: 'input' | 'output' | 'error' | 'system'; content: React.ReactNode }
 const commands = ['help', 'about', 'skills', 'experience', 'projects', 'certifications', 'contact', 'whoami', 'date', 'clear']
 const skills = [
-  { group: 'NETWORK & INFRASTRUCTURE', items: 'Cisco Catalyst 9200 / 9300 • Nexus • Wireless LAN Controller 9800 / 3504 • Routing & Switching • Network Design' },
-  { group: 'NETWORK SECURITY', items: 'Cisco ISE • 802.1X / NAC • FortiGate • Check Point • Forescout • Network Access Control' },
-  { group: 'MONITORING & OPERATIONS', items: 'SolarWinds Orion • Infrastructure Monitoring • Incident Troubleshooting • Capacity & Performance' },
+  { group: 'NETWORK & INFRASTRUCTURE', items: 'Cisco Catalyst 9200 / 9300 • Nexus • LAN / WAN • MPLS • OSPF • BGP • EIGRP • VLAN • STP • HSRP' },
+  { group: 'NETWORK SECURITY & NAC', items: 'Cisco ISE • 802.1X • RADIUS • NAC • Forescout • FortiGate • Check Point • Palo Alto • Proxy' },
+  { group: 'WIRELESS NETWORK', items: 'Cisco Wireless • Aruba • Ruckus • Cisco WLC 9800 / 3504 • Wireless Design & Troubleshooting' },
+  { group: 'MONITORING & OPERATIONS', items: 'SolarWinds Orion • PRTG • NetFlow • Wireshark • Incident & Problem Management • Capacity Planning' },
+  { group: 'IT INFRASTRUCTURE', items: 'VMware • Windows Server • Enterprise IT Infrastructure • Data Center Capacity Planning' },
   { group: 'AUTOMATION & DEVELOPMENT', items: 'PowerShell • Python • Node.js • Playwright • AutoHotkey • Power Automate • REST / Webhooks' },
-  { group: 'PLATFORMS & TOOLS', items: 'Windows Server • Cloud Server • Google Sheets • Git • npm • LINE Official Account' },
 ]
 function Output({ line }: { line: Line }) {
   return <div className={`line ${line.kind}`}>{line.kind === 'input' && <span className="prompt">mike@matrix:~$ </span>}{line.content}</div>
@@ -41,17 +42,90 @@ function App() {
       case 'help': case 'man':
         add(<><b className="green">AVAILABLE COMMANDS</b><div className="command-grid">{commands.map(c => <button key={c} className="command-link" onClick={() => run(c)}>{c}</button>)}</div><p className="dim">Tip: use Tab for autocomplete. Commands are case-insensitive.</p></>); break
       case 'about': case 'whoami':
-        add(<><b className="green">ABOUT MIKE</b><p>Senior IT Infrastructure &amp; Network Security Engineer with 15+ years of experience designing, operating, securing, and improving enterprise IT environments.</p><p>Focused on resilient infrastructure, network access control, security architecture, and practical automation that reduces operational effort and cost.</p><p><span className="label">LOCATION</span> Bangkok, Thailand</p><p><span className="label">PROFILE</span> Infrastructure • Network • Security • Automation</p></>); break
+        add(<>
+          <b className="green">ABOUT MIKE</b>
+          <p>Senior Network &amp; IT Infrastructure Engineer with 15+ years of experience in enterprise network infrastructure, network security, wireless technologies, and IT operations.</p>
+          <p>Experienced in delivering infrastructure projects from requirements gathering and solution design through procurement, implementation, testing, and handover. Focused on reliable enterprise connectivity, secure network access, operational resilience, and cost optimization.</p>
+          <p><span className="label">LOCATION</span> Thailand</p>
+          <p><span className="label">CURRENT ROLE</span> Senior Information Technology Engineer · UTAC</p>
+          <p><span className="label">SPECIALTIES</span> Enterprise Networking • Network Security • NAC • Wireless • IT Project Delivery</p>
+        </>); break
       case 'skills':
         add(<><b className="green">TECHNICAL SKILLS</b>{skills.map(s => <div className="skill-row" key={s.group}><span className="label">{s.group}</span><div>{s.items}</div></div>)}</>); break
       case 'experience':
-        add(<><b className="green">EXPERIENCE HIGHLIGHTS</b><div className="timeline"><div><b>Senior IT Infrastructure &amp; Network Engineering</b><span className="dim">Enterprise environments · Thailand</span><p>Network and security operations, infrastructure lifecycle, wireless, NAC, troubleshooting, vendor coordination, and service improvement.</p></div><div><b>Testing &amp; Training Operations</b><span className="dim">Investment industry · Thailand</span><p>Exam operations, scheduling, venue readiness, proctor coordination, communications calendar, and LINE Official Account administration.</p></div></div><p className="dim">Detailed employer names and dates can be added when you provide the final CV version.</p></>); break
+        add(<>
+          <b className="green">PROFESSIONAL EXPERIENCE</b>
+          <div className="timeline">
+            <div>
+              <b>Senior Information Technology Engineer</b>
+              <span className="dim">UTAC · Apr 2016 – Present · Bangkok, Thailand</span>
+              <p>Lead planning and delivery of enterprise IT infrastructure and network projects across multiple sites, from requirements and solution design through procurement, implementation, and handover.</p>
+              <p>Manage project scope, schedules, resources, risks, CAPEX/OPEX budgets, technical specifications, and vendor/carrier relationships.</p>
+              <p>Provide technical leadership across LAN/WAN, MPLS, wireless, network security, Cisco ISE, Forescout, FortiGate, Check Point, 802.1X, RADIUS, endpoint visibility, and segmentation.</p>
+              <p>Lead major incident coordination, root-cause resolution, lifecycle refresh, capacity planning, infrastructure documentation, and knowledge transfer.</p>
+            </div>
+            <div>
+              <b>Network Specialist Engineer (KBTG)</b>
+              <span className="dim">Dimension Data · Sep 2015 – Mar 2016 · Thailand</span>
+              <p>Provided Tier 2 network support for nationwide KBank branches and ATM connectivity, including incident troubleshooting, network changes, infrastructure upgrades, and onsite support.</p>
+              <p>Coordinated with NOC teams, customers, and vendors; performed proactive network health checks and supported branch network implementations.</p>
+            </div>
+            <div>
+              <b>Network Engineer</b>
+              <span className="dim">TT Network Integration (Thailand) Co., Ltd · Jun 2012 – Jul 2015</span>
+              <p>Provided onsite network engineering support for Toyota Motor Thailand and Toyota Motor Asia Pacific in a manufacturing environment.</p>
+              <p>Supported Cisco Unified Communications Manager, IP phones, SIP/SCCP, voice gateways, Layer 2/3, wireless, network monitoring, incident response, and infrastructure documentation.</p>
+              <p>Served as Network Engineer Plant Leader, coordinating team resources and technical knowledge transfer.</p>
+            </div>
+            <div>
+              <b>Network Engineer</b>
+              <span className="dim">JCMR Co., Ltd · Jun 2011 – May 2012 · Thailand</span>
+              <p>Designed and implemented wireless controller and access point solutions for hotel customers, including site surveys, requirements gathering, network layouts, user documentation, and onsite troubleshooting.</p>
+            </div>
+          </div>
+        </>); break
       case 'projects':
-        add(<><b className="green">SELECTED PROJECTS</b><div className="project"><b>01 / LINK COST REDUCTION</b><p>Replaced a recurring dark-fiber circuit between UTL1 and B8 with a wireless point-to-point link.</p><span className="metric">THB 162,000 / YEAR SAVED</span><span className="dim">One-time implementation: approx. USD 1,300</span></div><div className="project"><b>02 / NETWORK AUTOMATION</b><p>PowerShell and automation workflows for Wi-Fi speed testing, scheduled execution, and operational checks.</p><span className="tag">PowerShell · Ookla CLI · AutoHotkey</span></div><div className="project"><b>03 / NETWORK ACCESS &amp; SECURITY</b><p>Enterprise NAC and access-control initiatives involving Cisco ISE, 802.1X, and multi-vendor security platforms.</p><span className="tag">Cisco ISE · 802.1X · Fortinet · Check Point</span></div><div className="project"><b>04 / JAPANESE LIVE TRANSCRIPTION</b><p>Chrome extension and Node.js relay prototype for capturing tab audio and streaming Japanese transcription.</p><span className="tag">Chrome MV3 · Node.js · OpenAI Realtime</span></div></>); break
+        add(<>
+          <b className="green">SELECTED PROJECTS</b>
+          <div className="project">
+            <b>01 / NETWORK LINK COST REDUCTION</b>
+            <p>Replaced a recurring dark-fiber circuit between UTL1 and B8 with a wireless point-to-point link.</p>
+            <span className="metric">THB 162,000 / YEAR SAVED</span>
+            <p className="dim">One-time implementation cost: approximately USD 1,300.</p>
+          </div>
+          <div className="project">
+            <b>02 / ENTERPRISE NETWORK &amp; NAC</b>
+            <p>Network access control and access-security work involving Cisco ISE, 802.1X, RADIUS, Forescout, firewall platforms, endpoint visibility, and segmentation.</p>
+            <span className="tag">Cisco ISE · 802.1X · Forescout · FortiGate · Check Point</span>
+          </div>
+          <div className="project">
+            <b>03 / NETWORK AUTOMATION</b>
+            <p>Built PowerShell-based Wi-Fi speed testing and scheduled operational checks, integrating command-line testing tools and desktop automation.</p>
+            <span className="tag">PowerShell · Ookla CLI · AutoHotkey</span>
+          </div>
+          <div className="project">
+            <b>04 / JAPANESE LIVE TRANSCRIPTION</b>
+            <p>Developed a Chrome extension and Node.js relay prototype for capturing browser-tab audio and streaming Japanese transcription.</p>
+            <span className="tag">Chrome MV3 · Node.js · OpenAI Realtime</span>
+          </div>
+        </>); break
       case 'certifications': case 'certs':
-        add(<><b className="green">CERTIFICATIONS &amp; LEARNING</b><p><span className="metric">CCNP</span> <span className="dim">Cisco Certified Network Professional</span></p><p><span className="metric">Fortinet NSE 4</span> <span className="dim">Network Security Professional (legacy certification)</span></p><p><span className="metric">TOEIC 790</span> <span className="dim">Latest score shared</span></p><p className="dim">Certification dates and credential IDs intentionally omitted until verified.</p></>); break
+        add(<>
+          <b className="green">CERTIFICATIONS &amp; PROFESSIONAL DEVELOPMENT</b>
+          <p><span className="metric">CCNP</span> <span className="dim">Cisco Certified Network Professional</span></p>
+          <p><span className="metric">VMware Certified</span> <span className="dim">As listed on LinkedIn</span></p>
+          <p><span className="metric">Fortinet NSE 4</span> <span className="dim">Network Security Professional · legacy certification</span></p>
+          <p><span className="metric">TOEIC 790</span> <span className="dim">Latest score shared</span></p>
+          <p className="dim">Certification dates and credential IDs are not displayed.</p>
+        </>); break
       case 'contact':
-        add(<><b className="green">CONTACT</b><p>Interested in infrastructure, network security, and automation opportunities.</p><p><Mail size={14} className="inline-icon"/> Add your preferred email address</p><p><Linkedin size={14} className="inline-icon"/> Add your LinkedIn profile URL</p><p><Github size={14} className="inline-icon"/> Add your GitHub profile URL</p><p className="dim">Replace these placeholders in src/App.tsx before publishing.</p></>); break
+        add(<>
+          <b className="green">CONTACT &amp; PROFESSIONAL PROFILE</b>
+          <p>Open to Network Specialist, Senior Network Engineer, and Network Infrastructure opportunities in Thailand, including remote and hybrid roles.</p>
+          <p><Linkedin size={14} className="inline-icon"/> <a href="https://www.linkedin.com/in/peerawatdueanchay" target="_blank" rel="noreferrer">LinkedIn · Peerawat Dueanchay</a></p>
+          <p><Github size={14} className="inline-icon"/> <a href="https://github.com/matefeedkillrepeat30-create" target="_blank" rel="noreferrer">GitHub · Portfolio source</a></p>
+          <p><Mail size={14} className="inline-icon"/> Email available upon request</p>
+        </>); break
       case 'date': add(new Date().toLocaleString()); break
       case 'clear': setHistory([]); return
       case 'sudo': add('Nice try. This portfolio runs on curiosity, not root privileges.', 'error'); break
