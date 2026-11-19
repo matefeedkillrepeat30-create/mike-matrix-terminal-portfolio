@@ -1,36 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { Github, Linkedin, Mail, Wifi, ShieldCheck, Cpu, Network, ArrowUpRight } from 'lucide-react'
-import MatrixPortrait from './MatrixPortrait'
-
-type Line = { kind: 'input' | 'output' | 'error' | 'system'; content: React.ReactNode }
-const commands = ['help', 'about', 'skills', 'experience', 'projects', 'certifications', 'contact', 'whoami', 'date', 'clear']
-const skills = [
-  { group: 'NETWORK & INFRASTRUCTURE', items: 'Cisco Catalyst 9200 / 9300 • Nexus • LAN / WAN • MPLS • OSPF • BGP • EIGRP • VLAN • STP • HSRP' },
-  { group: 'NETWORK SECURITY & NAC', items: 'Cisco ISE • 802.1X • RADIUS • NAC • Forescout • FortiGate • Check Point • Palo Alto • Proxy' },
-  { group: 'WIRELESS NETWORK', items: 'Cisco Wireless • Aruba • Ruckus • Cisco WLC 9800 / 3504 • Wireless Design & Troubleshooting' },
-  { group: 'MONITORING & OPERATIONS', items: 'SolarWinds Orion • PRTG • NetFlow • Wireshark • Incident & Problem Management • Capacity Planning' },
-  { group: 'IT INFRASTRUCTURE', items: 'VMware • Windows Server • Enterprise IT Infrastructure • Data Center Capacity Planning' },
-  { group: 'AUTOMATION & DEVELOPMENT', items: 'PowerShell • Python • Node.js • Playwright • AutoHotkey • Power Automate • REST / Webhooks' },
-]
-function Output({ line }: { line: Line }) {
-  return <div className={`line ${line.kind}`}>{line.kind === 'input' && <span className="prompt">mike@matrix:~$ </span>}{line.content}</div>
-}
-function App() {
-  const [history, setHistory] = useState<Line[]>([
-    { kind: 'system', content: <>Welcome to <b className="green">MIKE://PORTFOLIO</b> <span className="dim">v1.0.0</span></> },
-    { kind: 'system', content: <>Senior IT Infrastructure &amp; Network Security Engineer</> },
-    { kind: 'system', content: <>Type <b className="green">help</b> to explore. Press <kbd>↑</kbd>/<kbd>↓</kbd> for command history or <kbd>Tab</kbd> to autocomplete.</> },
-    { kind: 'output', content: <span className="dim">────────────────────────────────────────────────────────────────────────</span> },
-  ])
-  const [value, setValue] = useState('')
-  const [historyIndex, setHistoryIndex] = useState(-1)
-  const [pastCommands, setPastCommands] = useState<string[]>([])
-  const [activeTab, setActiveTab] = useState('terminal')
-  const inputRef = useRef<HTMLInputElement>(null)
-  const bottomRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }) }, [history])
-
-  const run = (raw: string) => {
+const run = (raw: string) => {
     const text = raw.trim()
     if (!text) return
     const [cmdRaw] = text.split(/\s+/)
@@ -94,3 +62,63 @@ function App() {
             <p className="dim">One-time implementation cost: approximately USD 1,300.</p>
           </div>
           <div className="project">
+            <b>02 / ENTERPRISE NETWORK &amp; NAC</b>
+            <p>Network access control and access-security work involving Cisco ISE, 802.1X, RADIUS, Forescout, firewall platforms, endpoint visibility, and segmentation.</p>
+            <span className="tag">Cisco ISE · 802.1X · Forescout · FortiGate · Check Point</span>
+          </div>
+          <div className="project">
+            <b>03 / NETWORK AUTOMATION</b>
+            <p>Built PowerShell-based Wi-Fi speed testing and scheduled operational checks, integrating command-line testing tools and desktop automation.</p>
+            <span className="tag">PowerShell · Ookla CLI · AutoHotkey</span>
+          </div>
+          <div className="project">
+            <b>04 / JAPANESE LIVE TRANSCRIPTION</b>
+            <p>Developed a Chrome extension and Node.js relay prototype for capturing browser-tab audio and streaming Japanese transcription.</p>
+            <span className="tag">Chrome MV3 · Node.js · OpenAI Realtime</span>
+          </div>
+        </>); break
+      case 'certifications': case 'certs':
+        add(<>
+          <b className="green">CERTIFICATIONS &amp; PROFESSIONAL DEVELOPMENT</b>
+          <p><span className="metric">CCNP</span> <span className="dim">Cisco Certified Network Professional</span></p>
+          <p><span className="metric">VMware Certified</span> <span className="dim">As listed on LinkedIn</span></p>
+          <p><span className="metric">Fortinet NSE 4</span> <span className="dim">Network Security Professional · legacy certification</span></p>
+          <p><span className="metric">TOEIC 790</span> <span className="dim">Latest score shared</span></p>
+          <p className="dim">Certification dates and credential IDs are not displayed.</p>
+        </>); break
+      case 'contact':
+        add(<>
+          <b className="green">LET'S CONNECT</b>
+          <p>Interested in professional opportunities, technical discussions, and collaboration in enterprise networking, IT infrastructure, and network security.</p>
+          <p><span className="label">EMAIL</span><br/><Mail size={14} className="inline-icon"/> <a href="mailto:mike_peerawat@icloud.com">mike_peerawat@icloud.com</a></p>
+          <p><span className="label">LINKEDIN</span><br/><Linkedin size={14} className="inline-icon"/> <a href="https://www.linkedin.com/in/peerawatdueanchay" target="_blank" rel="noreferrer">linkedin.com/in/peerawatdueanchay</a></p>
+          <p><span className="label">PORTFOLIO SOURCE CODE</span><br/><Github size={14} className="inline-icon"/> <a href="https://github.com/matefeedkillrepeat30-create/mike-matrix-terminal-portfolio" target="_blank" rel="noreferrer">GitHub Repository · Matrix Terminal Portfolio</a></p>
+          <p><span className="label">LOCATION</span> Thailand · Bangkok</p>
+          <p><span className="label">FOCUS AREAS</span> Network Engineering • Network Security • IT Infrastructure • Enterprise Networking</p>
+          <p><a className="inline-command" href="mailto:mike_peerawat@icloud.com">GET IN TOUCH ↗</a></p>
+        </>); break
+      case 'date': add(new Date().toLocaleString()); break
+      case 'clear': setHistory([]); return
+      case 'sudo': add('Nice try. This portfolio runs on curiosity, not root privileges.', 'error'); break
+      default: add(<>Command not found: <b>{cmdRaw}</b>. Type <button className="inline-command" onClick={() => run('help')}>help</button> to see available commands.</>, 'error')
+    }
+    setHistory(h => [...h, ...next])
+  }
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') { e.preventDefault(); run(value) }
+    if (e.key === 'ArrowUp') { e.preventDefault(); const i = Math.min(historyIndex + 1, pastCommands.length - 1); setHistoryIndex(i); setValue(pastCommands[i] || '') }
+    if (e.key === 'ArrowDown') { e.preventDefault(); const i = historyIndex - 1; setHistoryIndex(i); setValue(i < 0 ? '' : pastCommands[i] || '') }
+    if (e.key === 'Tab') { e.preventDefault(); const match = commands.find(c => c.startsWith(value.toLowerCase())); if (match) setValue(match) }
+    if (e.ctrlKey && e.key.toLowerCase() === 'l') { e.preventDefault(); setHistory([]) }
+  }
+  const quick = (c: string) => run(c)
+  return <main className="page-shell">
+    <div className="matrix-rain" aria-hidden="true">01010110　01001101　10101001　01101010　01001101　10100101　01011010　00110101</div>
+    <header className="topbar"><a className="brand" href="#home"><span className="brand-mark">M<span>_</span></span><span>MIKE<span className="brand-sub">.SYS</span></span></a><nav><button className={activeTab === 'terminal' ? 'nav-active' : ''} onClick={() => setActiveTab('terminal')}>TERMINAL</button><button className={activeTab === 'profile' ? 'nav-active' : ''} onClick={() => { setActiveTab('profile'); run('about') }}>PROFILE</button><a href="https://github.com/matefeedkillrepeat30-create" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={12}/></a></nav><div className="status"><span className="pulse"/> SYSTEM ONLINE</div></header>
+    <section className="hero" id="home"><div className="hero-copy"><div className="eyebrow"><span/> PERSONAL PORTFOLIO / 2026</div><h1>THINK IN<br/><span>NETWORKS.</span><br/>BUILD <span>SECURE.</span></h1><p>Engineering reliable infrastructure. Securing connections. Automating the repetitive.</p><div className="hero-tags"><span><Network size={14}/> NETWORK ENGINEERING</span><span><ShieldCheck size={14}/> CYBERSECURITY</span><span><Cpu size={14}/> AUTOMATION</span></div></div><div className="hero-art">   <MatrixPortrait /> </div></section>
+    <section className="terminal-wrap"><div className="terminal-window" onClick={() => inputRef.current?.focus()}><div className="window-bar"><div className="window-dots"><i/><i/><i/></div><div className="window-title"><Wifi size={12}/> mike@matrix: ~/portfolio</div><span className="window-status">zsh — 80×24</span></div><div className="terminal-body"><div className="terminal-output">{history.map((line, i) => <Output line={line} key={i}/>)}<div ref={bottomRef}/></div><form className="input-line" onSubmit={e => { e.preventDefault(); run(value) }}><label htmlFor="terminal-input" className="prompt">mike@matrix:~$</label><input id="terminal-input" ref={inputRef} value={value} onChange={e => setValue(e.target.value)} onKeyDown={onKeyDown} autoComplete="off" spellCheck={false} aria-label="Terminal command"/><span className="cursor"/></form></div><div className="terminal-footer"><span>● UTF-8</span><span>MAIN · MATRIX THEME</span><span>COMMANDS: {commands.length}</span></div></div><div className="quick-commands"><span className="label">QUICK ACCESS</span>{['about','skills','experience','projects','certifications','contact','help'].map(c => <button key={c} onClick={() => quick(c)}>{c}</button>)}</div></section>
+    <section className="stats"><div><strong>15<span>+</span></strong><small>YEARS IN IT INFRASTRUCTURE</small></div><div><strong>4</strong><small>CORE TECHNICAL DOMAINS</small></div><div><strong>162K</strong><small>THB ANNUAL COST REDUCTION</small></div><div><strong>4</strong><small>CAREER MILESTONES</small></div></section>
+    <footer><span>© 2026 PEERAWAT DUEANCHAY / NETWORK &amp; SECURITY ENGINEERING.</span><span><span className="pulse"/> ALL SYSTEMS NOMINAL</span></footer>
+  </main>
+}
+export default App
